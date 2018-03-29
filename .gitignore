@@ -1,0 +1,9 @@
+# Ignores compilation output
+# .hi files are interface files, needed to compile modules that depends on the current .hi
+# .o file is the compiled code from a module
+*.hi
+*.o
+
+# Ignores input files
+in
+in[0-9]
