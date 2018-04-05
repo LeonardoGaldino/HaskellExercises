@@ -12,7 +12,7 @@ doubleMap :: (a -> b -> b) -> [a] -> [b] -> [b]
 doubleMap f [] [] = []
 doubleMap f (x:xs) (y:ys) = if length xs /= length ys
 						then error "Listas de tamanhos diferentes!"
-						else ((f x y):(myMap f xs ys))
+						else ((f x y):(doubleMap f xs ys))
 
 --Fibonacci recursion function using PD technique (Linear complexity)
 _fibonacciLinear :: Integer -> [Integer] -> Integer
@@ -40,7 +40,7 @@ sequencesLengthN n xs
 allSequences :: [Int] -> [[Int]]
 allSequences xs = ([]: (mergeLists [sequencesLengthN len xs | len <- [0..(length xs)]]) )
 
---*FALSE* haskell quicksort
+--FALSE haskell quicksort
 --True quicksort use mutability to do things in-place, hence it's faster
 quicksort :: [Int] -> [Int]
 quicksort [] = []
@@ -52,7 +52,7 @@ quicksort (x:xs) = (quicksort smallerEls ++ (x:(quicksort greaterEqEls)))
 --Main function to test above functions
 main = do
 	putStrLn(show(leastElement [5,6,12,-32,4]))
-	putStrLn(show(myMap (\x y -> x*y) [5,6,12] [-32.1, 7.1, 4.1]))
+	putStrLn(show(doubleMap (\x y -> x*y) [5,6,12] [-32.1, 7.1, 4.1]))
 	putStrLn(show(fibonacciLinear 31))
 	putStrLn(show(quicksort [15,15,15,15,15,14,14,14]))
 	putStrLn(show(allSequences [1,2,3,4]))
