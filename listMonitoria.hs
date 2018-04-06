@@ -1,6 +1,7 @@
 
 --Returns the smallest element in a list
 leastElement :: [Int] -> Int
+leastElement [] = error "Empty list can't have a smallest element!"
 leastElement (x:[]) = x
 leastElement (x:xs) 
 	| x < subList = x
