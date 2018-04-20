@@ -6,6 +6,15 @@ groupAdjacents (a:(b:xs))
 	| a == b = (b:(groupAdjacents (b:xs)))
 	| otherwise = groupAdjacents (b:xs)
 
+-- Same as above function, but using list comprehension
+-- First generates list with (Ai, i+1) for each element Ai *(1)
+-- Takes current element if the next is equal *(2)
+groupAdjacentsListComp :: [Int] -> [Int]
+groupAdjacentsListComp xs = [ fst t  | 
+		t <- zip xs [1..], -- *(1)
+		(snd t < length xs) && (fst t == ( xs !! (snd t) ) ) -- *(2)
+	]
+
 -- Auxiliar function to trim odd elements between [10,100]
 mapFilterFunc :: Int -> Bool
 mapFilterFunc el
@@ -38,7 +47,7 @@ instance Show Light where
 
 -- Overloads operator (==) and (/=)
 instance Eq Light where
-	(Compact a b) == (Compact c d)  = (a == c && b == d)
+	(Compact a b) == (Compact c d) = (a == c && b == d)
 	(Incandescent a b) == (Incandescent c d) = (a == c && b == d)
 	_ == _ = False
 
