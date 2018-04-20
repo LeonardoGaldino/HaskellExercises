@@ -40,6 +40,9 @@ type Power  = Double
 
 data Light = Compact Vendor Power | Incandescent Vendor Power
 
+getPower (Compact _ power) = power
+getPower (Incandescent _ power) = power
+
 -- Overrides show with own implementation
 instance Show Light where
 	show (Compact _ _) = "Compact"
@@ -51,8 +54,48 @@ instance Eq Light where
 	(Incandescent a b) == (Incandescent c d) = (a == c && b == d)
 	_ == _ = False
 
+data Luster = Luster Luster Luster | LusterLight Light -- YOLO
+
+-- Gets first luster
+fstLuster :: Luster -> Luster
+fstLuster (Luster l1 _) = l1
+
+-- Gets second luster
+sndLuster :: Luster -> Luster
+sndLuster (Luster _ l2) = l2
+
+-- Gets light from luster leaf
+light :: Luster -> Light
+light (LusterLight l) = l
+
+-- leaves
+a = LusterLight (Compact "l1" 125) 
+b = LusterLight (Incandescent "l2" 12.5) 
+c = LusterLight (Compact "l3" 12.5) 
+d = LusterLight (Incandescent "l4" 125)
+
+-- Parents Lusters (Barss)
+p1 = Luster a d
+p2 = Luster b c
+p3 = Luster p1 p2
+
+-- Computes total power from a luster
+totalPower :: Luster -> Double
+totalPower (LusterLight l) = getPower l
+totalPower (Luster l1 l2) = totalPower l1 + totalPower l2
+
+-- Checks if luster is balanced
+-- LusterLight are balanced!
+-- Luster with 2 LusterLight is balanced if power of lights are the same
+-- Otherwise -> Check if both Lusters are balanced
+lusterBalanced :: Luster -> Bool
+lusterBalanced (LusterLight _) = True
+lusterBalanced (Luster (LusterLight l1) (LusterLight l2)) = getPower l1 == getPower l2
+lusterBalanced (Luster l1 l2) = (lusterBalanced l1) && (lusterBalanced l2)
+
 main = do
 	putStrLn( show (groupAdjacents [1,2,2,2,3,3,1]))
+	putStrLn( show (groupAdjacentsListComp [1,2,2,2,3,3,1]))
 	
 	putStrLn( show (trimOddsInRangeMap [1,26,153,72,68,9]))
 	putStrLn( show (trimOddsInRangeMap [1,12,153,73,9]))
