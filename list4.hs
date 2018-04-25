@@ -100,3 +100,4 @@ compressName xs = ((head xs):(". ")) ++ lastName
 -- Do it!
 compressAndSortNames :: [String] -> [String]
 compressAndSortNames xs = sort (map (\name -> compressName name) xs) (<)
+
