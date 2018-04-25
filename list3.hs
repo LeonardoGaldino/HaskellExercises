@@ -147,3 +147,4 @@ printMonth :: WeekDay -> [(WeekDay, Int)]
 printMonth firstDay = [((toEnum (mod (offset+day-1) 7)::WeekDay), day) | day <- [1..31]]
 	where
 		offset = fromEnum firstDay
+
